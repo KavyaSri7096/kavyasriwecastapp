@@ -1,0 +1,100 @@
+apply plugin: 'com.android.feature'
+apply plugin: 'realm-android'
+apply from: '../libraries.gradle'
+
+android {
+
+    compileSdkVersion versions.compileSdk
+
+    defaultConfig {
+        minSdkVersion versions.minSdk
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    application project(':app')
+
+    // Support
+    api libraries.appCompat.constraintLayout
+    api libraries.appCompat.design
+    api libraries.appCompat.cardview
+
+    // View Model
+    api libraries.architecture.lifecycle
+    annotationProcessor libraries.architecture.lifecycleCompiler
+
+    // Dependency Injection
+    api libraries.dagger.base
+    annotationProcessor libraries.dagger.compiler
+    api libraries.dagger.android
+    annotationProcessor libraries.dagger.androidProcessor
+    api libraries.dagger.androidSupport
+
+    // Java RX
+    api libraries.rx.android
+    api libraries.rx.java
+
+    // Stream
+    api libraries.stream.base
+
+    // Retrofit
+    api libraries.retrofit.base
+    api libraries.retrofit.gsonConverter
+    api libraries.retrofit.rxAdapter
+
+    // Http logging
+    api libraries.okHttp.logging
+
+    // Gson parser
+    api libraries.gson.base
+
+    // Calligraphy
+    api libraries.calligraphy.base
+
+    // Glide
+    api libraries.glide.base
+    annotationProcessor libraries.glide.compiler
+
+    // Custom Views
+    api libraries.slidingPanel.base
+    api libraries.flowLayout.base
+    api libraries.segmentedGroup.base
+    api libraries.ratingBar.base
+    api libraries.blur.base
+    api libraries.horizontalPicker.base
+    api libraries.betterPickers.base
+    api libraries.numberPicker.base
+
+    // Exo player
+    api libraries.exoPlayer.base
+
+    // Google ADS
+    api libraries.googleAds.base
+
+    // Hockey app
+    api libraries.hockeyApp.base
+
+    // Logger
+    api libraries.timber.base
+
+    // Testing
+    api libraries.jUnit.base
+
+    // Socket
+    implementation('io.socket:socket.io-client:1.0.0') {
+        exclude group: 'org.json', module: 'json'
+    }
+}
