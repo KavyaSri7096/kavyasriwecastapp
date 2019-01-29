@@ -1,6 +1,5 @@
 package com.wecast.core.data.api.manager;
 
-import com.annimon.stream.Stream;
 import com.wecast.core.data.api.model.PagedData;
 import com.wecast.core.data.api.model.ResponseModel;
 import com.wecast.core.data.api.service.ChannelService;
@@ -59,7 +58,7 @@ public class ChannelManager {
         return channelService.getByGenreID(id, 1);
     }
 
-    public Observable<ResponseModel<ArrayList<Channel>>> search(String query, List<ChannelGenre> filters) {
+    public Observable<ResponseModel<PagedData<Channel>>> search(String query, List<ChannelGenre> filters) {
         Map<String, Integer> queryMap = new HashMap<>();
         if (filters != null && filters.size() > 0) {
             for (int i = 0; i < filters.size(); i++) {

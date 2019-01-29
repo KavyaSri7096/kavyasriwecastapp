@@ -62,8 +62,8 @@ public interface ChannelService {
             @Query(value = "config[enable_favorites]", encoded = true) Integer favorite
     );
 
-    @GET("channels")
-    Observable<ResponseModel<ArrayList<Channel>>> search(
+    @GET("channels/list")
+    Observable<ResponseModel<PagedData<Channel>>> search(
             @Query(value = "filter[title]", encoded = true) String title,
             @Query(value = "config[enable_favorites]", encoded = true) Integer favorite,
             @QueryMap(encoded = true) Map<String, Integer> channelGenreIds
