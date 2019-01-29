@@ -14,5 +14,7 @@ import retrofit2.http.Query;
 public interface BannerService {
 
     @GET("ads/active-banner-campaigns")
-    Observable<ResponseModel<Banner>> getBanner(@Query("filter[box_position]") String position);
+    Observable<ResponseModel<Banner>> getBanner(
+            @Query(value = "filter[box_position]", encoded = true) String position
+    );
 }

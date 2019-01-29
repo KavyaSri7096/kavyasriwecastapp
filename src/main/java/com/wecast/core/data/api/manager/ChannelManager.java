@@ -1,5 +1,6 @@
 package com.wecast.core.data.api.manager;
 
+import com.annimon.stream.Stream;
 import com.wecast.core.data.api.model.PagedData;
 import com.wecast.core.data.api.model.ResponseModel;
 import com.wecast.core.data.api.service.ChannelService;
@@ -58,16 +59,15 @@ public class ChannelManager {
         return channelService.getByGenreID(id, 1);
     }
 
-    public Observable<ResponseModel<ArrayList<Channel>>> search(String query, List<ChannelGenre> channelGenreList) {
-        if (channelGenreList != null && channelGenreList.size() > 0) {
-            Map<String, Integer> queryMap = new HashMap<>();
-            for (int i = 0; i < channelGenreList.size(); i++) {
-                ChannelGenre channelGenre = channelGenreList.get(i);
+    public Observable<ResponseModel<ArrayList<Channel>>> search(String query, List<ChannelGenre> filters) {
+        Map<String, Integer> queryMap = new HashMap<>();
+        if (filters != null && filters.size() > 0) {
+            for (int i = 0; i < filters.size(); i++) {
+                ChannelGenre channelGenre = filters.get(i);
                 queryMap.put("filter[category_id][" + i + "]", channelGenre.getId());
             }
-            return channelService.search(query, 1, queryMap);
         }
-        return channelService.search(query, 1, new HashMap<>());
+        return channelService.search(query, 1, queryMap);
     }
 
     public Observable<ResponseModel<Channel>> rent(int id, int profileId) {
