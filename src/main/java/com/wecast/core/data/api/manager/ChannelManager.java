@@ -9,6 +9,9 @@ import com.wecast.core.data.db.entities.ChannelStreamingProfile;
 import com.wecast.core.data.db.entities.Favorite;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -28,7 +31,7 @@ public class ChannelManager {
     }
 
     public Observable<ResponseModel<ArrayList<Channel>>> getAll() {
-        return channelService.getAll(null, null,1);
+        return channelService.getAll(null, null, 1);
     }
 
     public Observable<ResponseModel<PagedData<Channel>>> getPage(int page) {
@@ -44,7 +47,7 @@ public class ChannelManager {
     }
 
     public Observable<ResponseModel<ArrayList<ChannelGenre>>> getGenres() {
-        return channelService.getCategories();
+        return channelService.getGenres();
     }
 
     public Observable<ResponseModel<ArrayList<Channel>>> getById(int id) {
@@ -55,8 +58,15 @@ public class ChannelManager {
         return channelService.getByGenreID(id, 1);
     }
 
-    public Observable<ResponseModel<ArrayList<Channel>>> search(String query) {
-        return channelService.getAll(null, query, 1);
+    public Observable<ResponseModel<PagedData<Channel>>> search(String query, List<ChannelGenre> filters) {
+        Map<String, Integer> queryMap = new HashMap<>();
+        if (filters != null && filters.size() > 0) {
+            for (int i = 0; i < filters.size(); i++) {
+                ChannelGenre channelGenre = filters.get(i);
+                queryMap.put("filter[category_id][" + i + "]", channelGenre.getId());
+            }
+        }
+        return channelService.search(query, 1, queryMap);
     }
 
     public Observable<ResponseModel<Channel>> rent(int id, int profileId) {

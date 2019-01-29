@@ -4,10 +4,15 @@ import com.wecast.core.data.api.model.PagedData;
 import com.wecast.core.data.api.model.ResponseModel;
 import com.wecast.core.data.api.service.VodService;
 import com.wecast.core.data.db.entities.Rated;
+import com.wecast.core.data.db.entities.ShowType;
+import com.wecast.core.data.db.entities.TVShow;
 import com.wecast.core.data.db.entities.Vod;
 import com.wecast.core.data.db.entities.VodGenre;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -65,8 +70,15 @@ public class VodManager {
         return vodService.getByGenreID(page, id);
     }
 
-    public Observable<ResponseModel<PagedData<Vod>>> search(String query) {
-        return vodService.search(30, query);
+    public Observable<ResponseModel<PagedData<Vod>>> search(String query, List<ShowType> filters) {
+        Map<String, Integer> queryMap = new HashMap<>();
+        if (filters != null && filters.size() > 0) {
+            for (int i = 0; i < filters.size(); i++) {
+                ShowType showType = filters.get(i);
+                queryMap.put("filter[show_type_id][" + i + "]", showType.getId());
+            }
+        }
+        return vodService.search(30, query, queryMap);
     }
 
     public Observable<ResponseModel<Rated>> rate(int id, int rate, boolean isEpisode) {
@@ -83,5 +95,9 @@ public class VodManager {
 
     public Observable<ResponseModel<Vod>> getSource(Integer id, Integer profileId) {
         return vodService.getSource(id, profileId, 1);
+    }
+
+    public Observable<ResponseModel<ArrayList<ShowType>>> getShowTypes() {
+        return vodService.getShowTypes();
     }
 }

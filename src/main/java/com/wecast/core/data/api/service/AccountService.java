@@ -22,21 +22,39 @@ import retrofit2.http.Query;
 public interface AccountService {
 
     @GET("account/login")
-    Observable<ResponseModel<Authentication>> loginWithUsernameAndPassword(@Query("username") String username, @Query("password") String password);
+    Observable<ResponseModel<Authentication>> loginWithUsernameAndPassword(
+            @Query("username") String username,
+            @Query("password") String password
+    );
 
     @GET("account/device-login")
     Observable<ResponseModel<Authentication>> loginWithUID();
 
     @GET("account/check-device-token")
-    Observable<ResponseModel<Token>> checkDeviceToken(@Query("token") String token);
+    Observable<ResponseModel<Token>> checkDeviceToken(
+            @Query("token") String token
+    );
 
     @FormUrlEncoded
     @POST("account/forgot-password")
-    Observable<ResponseModel> resetPassword(@Field("email") String email);
+    Observable<ResponseModel> resetPassword(
+            @Field("email") String email
+    );
 
     @FormUrlEncoded
     @POST("account/registration")
-    Observable<ResponseModel<ErrorData>> register(@Field("username") String username, @Field("first_name") String firstName, @Field("last_name") String lastName, @Field("email") String email, @Field("password") String password, @Field("age") String age, @Field("pin") String pin, @Field("purchase_pin") String purchasePin, @Field("sex") Integer gender, @Field("subscription_id") String subscriptionId);
+    Observable<ResponseModel<ErrorData>> register(
+            @Field("username") String username,
+            @Field("first_name") String firstName,
+            @Field("last_name") String lastName,
+            @Field("email") String email,
+            @Field("password") String password,
+            @Field("age") String age,
+            @Field("pin") String pin,
+            @Field("purchase_pin") String purchasePin,
+            @Field("sex") Integer gender,
+            @Field("subscription_id") String subscriptionId
+    );
 
     @GET("account/get-subscriptions")
     Observable<ResponseModel<List<Subscription>>> getSubscriptions();
@@ -46,7 +64,15 @@ public interface AccountService {
 
     @FormUrlEncoded
     @POST("account/update-profile")
-    Observable<ResponseModel<ErrorData>> updateInfo(@Field("email") String email, @Field("first_name") String first_name, @Field("last_name") String last_name, @Field("password") String password, @Field("confirm_password") String confirm_password, @Field("purchase_pin") String purchase_pin, @Field("pin") String pin);
+    Observable<ResponseModel<ErrorData>> updateInfo(
+            @Field("email") String email,
+            @Field("first_name") String first_name,
+            @Field("last_name") String last_name,
+            @Field("password") String password,
+            @Field("confirm_password") String confirm_password,
+            @Field("purchase_pin") String purchase_pin,
+            @Field("pin") String pin
+    );
 
     @GET("account/logout")
     Observable<ResponseModel> logout();
