@@ -64,16 +64,15 @@ public class TVShowManager {
         return tvShowService.getEpisodes(page, tvShowId, seasonId, "1");
     }
 
-    public Observable<ResponseModel<PagedData<TVShow>>> search(String query, List<ShowType> showTypeList) {
-        if (showTypeList != null && showTypeList.size() > 0) {
-            Map<String, Integer> queryMap = new HashMap<>();
-            for (int i = 0; i < showTypeList.size(); i++) {
-                ShowType showType = showTypeList.get(i);
-                queryMap.put("filter[show_type_id][" + i + "]=", showType.getId());
+    public Observable<ResponseModel<PagedData<TVShow>>> search(String query, List<ShowType> filters) {
+        Map<String, Integer> queryMap = new HashMap<>();
+        if (filters != null && filters.size() > 0) {
+            for (int i = 0; i < filters.size(); i++) {
+                ShowType showType = filters.get(i);
+                queryMap.put("filter[show_type_id][" + i + "]", showType.getId());
             }
-            return tvShowService.search(30, query, queryMap);
         }
-        return tvShowService.search(30, query, new HashMap<>());
+        return tvShowService.search(30, query, queryMap);
     }
 
     public Observable<ResponseModel<Rated>> rate(int tvShowId, int rate) {

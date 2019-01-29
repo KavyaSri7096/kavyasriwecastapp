@@ -43,6 +43,8 @@ public class ChannelGenre extends RealmObject {
     @SerializedName("children")
     private RealmList<ChannelGenre> children;
 
+    private boolean isChecked;
+
     public int getId() {
         return id;
     }
@@ -121,5 +123,13 @@ public class ChannelGenre extends RealmObject {
 
     public void setChildren(RealmList<ChannelGenre> children) {
         this.children = children;
+    }
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
     }
 }
