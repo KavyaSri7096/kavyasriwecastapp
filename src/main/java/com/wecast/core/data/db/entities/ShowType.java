@@ -31,6 +31,8 @@ public class ShowType extends RealmObject {
     @SerializedName("background_url")
     private String backgroundUrl;
 
+    private boolean isChecked;
+
     public int getId() {
         return id;
     }
@@ -85,5 +87,13 @@ public class ShowType extends RealmObject {
 
     public void setBackgroundUrl(String backgroundUrl) {
         this.backgroundUrl = backgroundUrl;
+    }
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
     }
 }

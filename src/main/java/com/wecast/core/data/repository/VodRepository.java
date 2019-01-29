@@ -6,6 +6,7 @@ import com.wecast.core.data.api.manager.VodManager;
 import com.wecast.core.data.api.model.PagedData;
 import com.wecast.core.data.api.model.ResponseModel;
 import com.wecast.core.data.db.dao.VodDao;
+import com.wecast.core.data.db.entities.ShowType;
 import com.wecast.core.data.db.entities.Vod;
 
 import java.util.ArrayList;
@@ -340,5 +341,26 @@ public class VodRepository {
             }
         }
         vodDao.insert(vod);
+    }
+
+    /**
+     * Fetch vod show types
+     */
+
+    public Observable<ResponseWrapper<List<ShowType>>> getShowTypes() {
+        return vodManager.getShowTypes()
+                .map(response -> {
+                    if (response.isTokenExpired()) {
+                        return ResponseWrapper.tokenExpired();
+                    } else if (response.isSubscriptionExpired()) {
+                        List<ShowType> data = response.getData();
+                        return ResponseWrapper.subscriptionExpired(data);
+                    } else if (response.isSuccessful()) {
+                        List<ShowType> data = response.getData();
+                        return ResponseWrapper.success(data);
+                    } else {
+                        return ResponseWrapper.error(response.getMessage());
+                    }
+                });
     }
 }

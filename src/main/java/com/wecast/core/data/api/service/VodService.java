@@ -3,10 +3,12 @@ package com.wecast.core.data.api.service;
 import com.wecast.core.data.api.model.PagedData;
 import com.wecast.core.data.api.model.ResponseModel;
 import com.wecast.core.data.db.entities.Rated;
+import com.wecast.core.data.db.entities.ShowType;
 import com.wecast.core.data.db.entities.Vod;
 import com.wecast.core.data.db.entities.VodGenre;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import io.reactivex.Observable;
 import retrofit2.http.Field;
@@ -15,6 +17,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 /**
  * Created by ageech@live.com
@@ -49,7 +52,7 @@ public interface VodService {
     Observable<ResponseModel<PagedData<Vod>>> getByGenreID(@Query("page") Integer page, @Query("filter[genre_id]") Integer genreId);
 
     @GET("vods/single-event-vods-list")
-    Observable<ResponseModel<PagedData<Vod>>> search(@Query("limit") Integer limit, @Query("filter[title]") String title);
+    Observable<ResponseModel<PagedData<Vod>>> search(@Query("limit") Integer limit, @Query("filter[title]") String title, @QueryMap Map<String, Integer> showTypeIds);
 
     @GET("rate-items/movie-rate/{vod_id}/{rate}")
     Observable<ResponseModel<Rated>> rateMovie(@Path("vod_id") Integer id, @Path("rate") Integer rate);
@@ -64,4 +67,7 @@ public interface VodService {
     @FormUrlEncoded
     @POST("vods/get-movie-source")
     Observable<ResponseModel<Vod>> getSource(@Field("single_event_vod_id") Integer id, @Field("vod_profile_id") Integer profileId, @Query("config[enable_continue_watching]") Integer continueWatching);
+
+    @GET("vods/show-types")
+    Observable<ResponseModel<ArrayList<ShowType>>> getShowTypes();
 }
