@@ -25,8 +25,3 @@ For data that does not require structure we store it in Shared Preferences. The 
 
 # Repository
 A Repository mediates between the domain and data mapping layers, acting like an in-memory domain object collection. We access the database class and the DAO class from the repository and perform list of operations such as insert, update, delete, get.
-
-
-## Project structure
-
-<img src="./img/structure.png" width="400" height="540" >
