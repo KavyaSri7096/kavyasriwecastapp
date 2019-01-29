@@ -8,6 +8,7 @@ import com.wecast.core.data.db.entities.TVShowGenre;
 import com.wecast.core.data.db.entities.Vod;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import io.reactivex.Observable;
 import retrofit2.http.Field;
@@ -16,6 +17,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 /**
  * Created by ageech@live.com
@@ -46,7 +48,7 @@ public interface TVShowService {
     Observable<ResponseModel<PagedData<Vod>>> getEpisodes(@Query("page") Integer page, @Query("filter[multi_event_vod_id]") Integer tvShowId, @Query("filter[multi_event_vod_season_id]") Integer seasonId, @Query("filter[type]") String type);
 
     @GET("vods/multi-event-vods-list")
-    Observable<ResponseModel<PagedData<TVShow>>> search(@Query("limit") Integer limit, @Query("filter[title]") String title);
+    Observable<ResponseModel<PagedData<TVShow>>> search(@Query("limit") Integer limit, @Query("filter[title]") String title, @QueryMap Map<String, Integer> showTypeIds);
 
     @GET("rate-items/serie-rate/{tv_show_id}/{rate}")
     Observable<ResponseModel<Rated>> rate(@Path("tv_show_id") Integer id, @Path("rate") Integer rate);

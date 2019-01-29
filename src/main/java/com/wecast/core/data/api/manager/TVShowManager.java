@@ -4,11 +4,15 @@ import com.wecast.core.data.api.model.PagedData;
 import com.wecast.core.data.api.model.ResponseModel;
 import com.wecast.core.data.api.service.TVShowService;
 import com.wecast.core.data.db.entities.Rated;
+import com.wecast.core.data.db.entities.ShowType;
 import com.wecast.core.data.db.entities.TVShow;
 import com.wecast.core.data.db.entities.TVShowGenre;
 import com.wecast.core.data.db.entities.Vod;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -60,8 +64,16 @@ public class TVShowManager {
         return tvShowService.getEpisodes(page, tvShowId, seasonId, "1");
     }
 
-    public Observable<ResponseModel<PagedData<TVShow>>> search(String query) {
-        return tvShowService.search(30, query);
+    public Observable<ResponseModel<PagedData<TVShow>>> search(String query, List<ShowType> showTypeList) {
+        if (showTypeList != null && showTypeList.size() > 0) {
+            Map<String, Integer> queryMap = new HashMap<>();
+            for (int i = 0; i < showTypeList.size(); i++) {
+                ShowType showType = showTypeList.get(i);
+                queryMap.put("filter[show_type_id][" + i + "]=", showType.getId());
+            }
+            return tvShowService.search(30, query, queryMap);
+        }
+        return tvShowService.search(30, query, new HashMap<>());
     }
 
     public Observable<ResponseModel<Rated>> rate(int tvShowId, int rate) {
