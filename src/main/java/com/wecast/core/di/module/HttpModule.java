@@ -83,8 +83,7 @@ public class HttpModule {
     @Provides
     @Singleton
     @Named("Unsecured")
-    OkHttpClient provideUnSecuredOkHttpClient(X509TrustManager x509TrustManager, HttpLoggingInterceptor loggingInterceptor,
-                                              ApiInterceptor apiInterceptor) {
+    OkHttpClient provideUnSecuredOkHttpClient(X509TrustManager x509TrustManager, HttpLoggingInterceptor loggingInterceptor, ApiInterceptor apiInterceptor) {
         OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder();
         try {
             final TrustManager[] trustAllCerts = new TrustManager[]{x509TrustManager};
