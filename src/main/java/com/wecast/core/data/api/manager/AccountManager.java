@@ -1,9 +1,11 @@
 package com.wecast.core.data.api.manager;
 
 import com.wecast.core.data.api.model.ErrorData;
+import com.wecast.core.data.api.model.PagedData;
 import com.wecast.core.data.api.model.ResponseModel;
 import com.wecast.core.data.api.service.AccountService;
 import com.wecast.core.data.db.entities.Authentication;
+import com.wecast.core.data.db.entities.PaymentHistory;
 import com.wecast.core.data.db.entities.Subscription;
 import com.wecast.core.data.db.entities.Token;
 
@@ -60,6 +62,10 @@ public class AccountManager {
 
     public Observable<ResponseModel<ErrorData>> updateInfo(String email, String firstName, String lastName, String currentPassword, String password, String confirmPassword, String purchasePin, String pin) {
         return accountService.updateInfo(email, firstName, lastName, password, confirmPassword, purchasePin, pin);
+    }
+
+    public Observable<ResponseModel<PagedData<PaymentHistory>>> getPaymentHistory(int page) {
+        return accountService.getPaymentHistory(page);
     }
 
     public Observable<ResponseModel> logout() {
