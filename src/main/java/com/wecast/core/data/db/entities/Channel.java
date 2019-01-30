@@ -64,7 +64,7 @@ public class Channel extends RealmObject {
     @SerializedName("catchup_duration_total")
     private Integer catchupDurationTotal;
 
-    @SerializedName("catchupURLParams")
+    @SerializedName("catchup_url_params")
     private ChannelUrlParams catchupURLParams;
 
     @SerializedName("time_shifted_streams")
