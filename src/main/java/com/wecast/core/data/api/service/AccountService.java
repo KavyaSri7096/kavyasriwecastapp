@@ -1,8 +1,10 @@
 package com.wecast.core.data.api.service;
 
 import com.wecast.core.data.api.model.ErrorData;
+import com.wecast.core.data.api.model.PagedData;
 import com.wecast.core.data.api.model.ResponseModel;
 import com.wecast.core.data.db.entities.Authentication;
+import com.wecast.core.data.db.entities.PaymentHistory;
 import com.wecast.core.data.db.entities.Subscription;
 import com.wecast.core.data.db.entities.Token;
 
@@ -72,6 +74,11 @@ public interface AccountService {
             @Field("confirm_password") String confirm_password,
             @Field("purchase_pin") String purchase_pin,
             @Field("pin") String pin
+    );
+
+    @GET("account/payment-history-list")
+    Observable<ResponseModel<PagedData<PaymentHistory>>> getPaymentHistory(
+            @Query("page") Integer page
     );
 
     @GET("account/logout")
