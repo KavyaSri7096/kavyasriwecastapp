@@ -10,10 +10,10 @@ import io.realm.RealmObject;
 
 public class ChannelUrlParams extends RealmObject {
 
-    @SerializedName("startTimeFormat")
+    @SerializedName("start_time_format")
     private String startTimeFormat;
 
-    @SerializedName("durationFormat")
+    @SerializedName("duration_format")
     private String durationFormat;
 
     public String getStartTimeFormat() {

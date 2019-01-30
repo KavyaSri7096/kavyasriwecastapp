@@ -37,7 +37,7 @@ public class SyncRemindersService extends BaseService {
 
     @Override
     public boolean onStartJob(JobParameters jobParameters) {
-        Logger.d("SYNC REMINDERS -> " + "Service started!");
+        Logger.d("SyncRemindersService", "Service started!");
         getReminders();
         return true;
     }
@@ -74,13 +74,13 @@ public class SyncRemindersService extends BaseService {
             }
         }
 
-        Logger.d("SYNC REMINDERS -> " + "Up to date (Count = " + data.size() + ")");
+        Logger.d("SyncRemindersService", "Up to date (Count = " + data.size() + ")");
     }
 
     @Override
     public boolean onStopJob(JobParameters jobParameters) {
         disposable.dispose();
-        Logger.d("SYNC REMINDERS -> " + "Service stopped!");
+        Logger.d("SyncRemindersService ", "Service stopped!");
         return true;
     }
 }
