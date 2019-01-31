@@ -5,7 +5,7 @@ import com.wecast.core.data.db.entities.Banner;
 import com.wecast.core.data.db.entities.Channel;
 import com.wecast.core.data.db.entities.Vod;
 import com.wecast.core.data.db.pref.PreferenceManager;
-import com.wecast.core.Logger;
+import com.wecast.core.logger.Logger;
 
 import org.json.JSONArray;
 import org.json.JSONException;

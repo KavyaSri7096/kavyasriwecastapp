@@ -2,7 +2,7 @@ package com.wecast.core.service;
 
 import android.app.job.JobParameters;
 
-import com.wecast.core.Logger;
+import com.wecast.core.logger.Logger;
 import com.wecast.core.data.api.manager.TVGuideManager;
 import com.wecast.core.data.db.dao.ReminderDao;
 import com.wecast.core.data.db.entities.TVGuideProgramme;

@@ -20,7 +20,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout.LayoutParams;
 
-import com.wecast.core.Logger;
+import com.wecast.core.logger.Logger;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

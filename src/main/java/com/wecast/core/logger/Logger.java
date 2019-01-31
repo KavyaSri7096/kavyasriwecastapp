@@ -1,4 +1,6 @@
-package com.wecast.core;
+package com.wecast.core.logger;
+
+import com.wecast.core.BuildConfig;
 
 import timber.log.Timber;
 

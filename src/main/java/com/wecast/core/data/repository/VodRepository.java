@@ -169,6 +169,9 @@ public class VodRepository {
                 .doOnNext(apiResponse -> {
                     if (apiResponse.status == ApiStatus.SUCCESS) {
                         if (apiResponse.data != null) {
+                            // Clear data from database
+                            vodDao.clearTrending();
+                            // Insert new data from server
                             for (Vod vod : apiResponse.data) {
                                 vod.setTrending(true);
                                 preventFieldOverriding(vod);
@@ -239,7 +242,7 @@ public class VodRepository {
         if (forceRemote) {
             data = getByGenreIDFromAPI(page, genreId);
         } else {
-            data = vodDao.getByGenreID(genreId).map(ResponseWrapper::success);
+            data = vodDao.getByGenreId(genreId).map(ResponseWrapper::success);
         }
         return Observable.concat(getByGenreIDFromDB(genreId), data);
     }
@@ -271,7 +274,7 @@ public class VodRepository {
     }
 
     private Observable<ResponseWrapper<List<Vod>>> getByGenreIDFromDB(int genreId) {
-        return vodDao.getByGenreID(genreId)
+        return vodDao.getByGenreId(genreId)
                 .map(ResponseWrapper::loading)
                 .take(1);
     }
@@ -308,6 +311,9 @@ public class VodRepository {
                 .doOnNext(apiResponse -> {
                     if (apiResponse.status == ApiStatus.SUCCESS) {
                         if (apiResponse.data != null) {
+                            // Clear data from database
+                            vodDao.clearContinueWatching();
+                            // Insert new data from server
                             for (Vod vod : apiResponse.data) {
                                 vod.setContinueWatching(true);
                                 preventFieldOverriding(vod);

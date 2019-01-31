@@ -2,6 +2,7 @@ package com.wecast.core.data.db.dao;
 
 import com.wecast.core.data.db.entities.TVShow;
 import com.wecast.core.data.db.entities.TVShowGenre;
+import com.wecast.core.data.db.entities.TVShowSeason;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,7 +87,7 @@ public class TVShowDao extends BaseDao<TVShow> {
         });
     }
 
-    public Observable<List<TVShow>> getByGenreID(int genreId) {
+    public Observable<List<TVShow>> getByGenreId(int genreId) {
         return Observable.fromCallable(() -> {
             try (Realm realm = Realm.getDefaultInstance()) {
                 List<TVShow> results = realm.where(TVShow.class).findAll();
@@ -96,7 +97,6 @@ public class TVShowDao extends BaseDao<TVShow> {
                         for (TVShowGenre tvShowGenre : tvShow.getGenres()) {
                             if (tvShowGenre.getId() == genreId) {
                                 data.add(tvShow);
-                                break;
                             }
                         }
                     }
