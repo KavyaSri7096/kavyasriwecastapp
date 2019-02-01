@@ -1,7 +1,7 @@
 package com.wecast.core.data.repository;
 
-import com.wecast.core.data.api.ResponseWrapper;
 import com.wecast.core.data.api.ApiStatus;
+import com.wecast.core.data.api.ResponseWrapper;
 import com.wecast.core.data.api.manager.VodManager;
 import com.wecast.core.data.api.model.PagedData;
 import com.wecast.core.data.api.model.ResponseModel;
@@ -16,9 +16,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by ageech@live.com
@@ -36,12 +34,16 @@ public class VodRepository {
         this.vodManager = vodManager;
     }
 
-    public Observable<Vod> getByID(int id, boolean isEpisode) {
+    /*public Observable<Vod> getByID(int id, boolean isEpisode) {
         return vodManager.getByID(id, isEpisode)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .filter(ResponseModel::isSuccessful)
                 .map(response -> response.getData().getItems().get(0));
+    }*/
+
+    public Observable<Vod> getByID(int id, boolean isEpisode) {
+        return Observable.fromCallable(() -> vodDao.getById(id));
     }
 
     /**

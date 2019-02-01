@@ -30,7 +30,8 @@ public interface VodService {
             @Query("page") Integer page,
             @Query(value = "sort[created]", encoded = true) String sortCreated,
             @Query(value = "sort[release_date]", encoded = true) String sortReleaseDate,
-            @Query(value = "config[enable_rate]", encoded = true) Integer rate
+            @Query(value = "config[enable_rate]", encoded = true) Integer rate,
+            @Query(value = "config[enable_continue_watching]", encoded = true) Integer continueWatching
     );
 
     @FormUrlEncoded
@@ -60,7 +61,8 @@ public interface VodService {
     Observable<ResponseModel<PagedData<Vod>>> getByID(
             @Query(value = "filter[id]", encoded = true) Integer id,
             @Query(value = "filter[type]", encoded = true) Integer type,
-            @Query(value = "config[enable_rate]", encoded = true) Integer rate
+            @Query(value = "config[enable_rate]", encoded = true) Integer rate,
+            @Query(value = "config[enable_continue_watching]", encoded = true) Integer continueWatching
     );
 
     @GET("vods/single-event-vods-list")
