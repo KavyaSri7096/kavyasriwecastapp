@@ -125,6 +125,9 @@ public class TVShowRepository {
                 .doOnNext(apiResponse -> {
                     if (apiResponse.status == ApiStatus.SUCCESS) {
                         if (apiResponse.data != null) {
+                            // Clear data from database
+                            tvShowDao.clearRecommended();
+                            // Insert new data from server
                             for (TVShow tvShow : apiResponse.data) {
                                 tvShow.setRecommended(true);
                                 preventFieldOverriding(tvShow);
@@ -172,6 +175,9 @@ public class TVShowRepository {
                 .doOnNext(apiResponse -> {
                     if (apiResponse.status == ApiStatus.SUCCESS) {
                         if (apiResponse.data != null) {
+                            // Clear data from database
+                            tvShowDao.clearTrending();
+                            // Insert new data from server
                             for (TVShow tvShow : apiResponse.data) {
                                 tvShow.setTrending(true);
                                 preventFieldOverriding(tvShow);

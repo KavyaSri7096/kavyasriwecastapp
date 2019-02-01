@@ -55,14 +55,14 @@ public class TVShowGenreDao extends BaseDao<TVShowGenre> {
     }
 
     @Override
-    public int getCount() {
-        return (int) realm.where(TVShowGenre.class).count();
-    }
-
-    @Override
     public void clear() {
         Realm realm = Realm.getDefaultInstance();
         realm.executeTransaction(realm1 -> realm1.delete(TVShowGenre.class));
         realm.close();
+    }
+
+    @Override
+    public int getCount() {
+        return (int) realm.where(TVShowGenre.class).count();
     }
 }

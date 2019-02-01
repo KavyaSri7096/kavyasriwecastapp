@@ -180,7 +180,12 @@ public class ChannelRepository {
                 })
                 .doOnNext(apiResponse -> {
                     if (apiResponse.status == ApiStatus.SUCCESS) {
-                        channelDao.insert(apiResponse.data);
+                        if (apiResponse.data != null) {
+                            // Clear data from database
+                            channelDao.clearTrending();
+                            // Insert new data from server
+                            channelDao.insert(apiResponse.data);
+                        }
                     }
                 });
     }

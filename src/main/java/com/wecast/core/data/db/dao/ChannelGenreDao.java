@@ -56,14 +56,14 @@ public class ChannelGenreDao extends BaseDao<ChannelGenre> {
     }
 
     @Override
-    public int getCount() {
-        return (int) realm.where(ChannelGenre.class).count();
-    }
-
-    @Override
     public void clear() {
         Realm realm = Realm.getDefaultInstance();
         realm.executeTransaction(realm1 -> realm1.delete(Channel.class));
         realm.close();
+    }
+
+    @Override
+    public int getCount() {
+        return (int) realm.where(ChannelGenre.class).count();
     }
 }

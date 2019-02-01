@@ -122,6 +122,9 @@ public class VodRepository {
                 .doOnNext(apiResponse -> {
                     if (apiResponse.status == ApiStatus.SUCCESS) {
                         if (apiResponse.data != null) {
+                            // Clear data from database
+                            vodDao.clearRecommended();
+                            // Insert new data from server
                             for (Vod vod : apiResponse.data) {
                                 vod.setRecommended(true);
                                 preventFieldOverriding(vod);

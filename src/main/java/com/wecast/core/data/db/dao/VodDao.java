@@ -10,6 +10,7 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * Created by ageech@live.com
@@ -142,15 +143,48 @@ public class VodDao extends BaseDao<Vod> {
         }
     }
 
+    public void clearRecommended() {
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(realm1 -> {
+            List<Vod> results = realm1.where(Vod.class).findAll();
+            for (Vod vod : results) {
+                if (vod.isRecommended()) {
+                    String filed = "id";
+                    RealmResults<Vod> realmResults = realm1.where(Vod.class).equalTo(filed, vod.getId()).findAll();
+                    realmResults.deleteAllFromRealm();
+                }
+            }
+        });
+        realm.close();
+    }
+
     public void clearTrending() {
         Realm realm = Realm.getDefaultInstance();
-        realm.executeTransaction(realm1 -> realm1.delete(Vod.class));
+        realm.executeTransaction(realm1 -> {
+            List<Vod> results = realm1.where(Vod.class).findAll();
+            for (Vod vod : results) {
+                if (vod.isTrending()) {
+                    String filed = "id";
+                    RealmResults<Vod> realmResults = realm1.where(Vod.class).equalTo(filed, vod.getId()).findAll();
+                    realmResults.deleteAllFromRealm();
+                }
+            }
+        });
         realm.close();
     }
 
     public void clearContinueWatching() {
         Realm realm = Realm.getDefaultInstance();
-        realm.executeTransaction(realm1 -> realm1.delete(Vod.class));
+        realm.executeTransaction(realm1 -> {
+            List<Vod> results = realm1.where(Vod.class).findAll();
+            for (Vod vod : results) {
+                if (vod.isContinueWatching()) {
+                    String filed = "id";
+                    RealmResults<Vod> realmResults = realm1.where(Vod.class).equalTo(filed, vod.getId()).findAll();
+                    realmResults.deleteAllFromRealm();
+                }
+            }
+        });
         realm.close();
     }
 

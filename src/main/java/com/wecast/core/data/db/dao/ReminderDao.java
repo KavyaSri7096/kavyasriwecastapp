@@ -48,25 +48,6 @@ public class ReminderDao extends BaseDao<TVGuideReminder> {
         return null;
     }
 
-    @Override
-    public int getCount() {
-        return (int) realm.where(TVGuideReminder.class).count();
-    }
-
-    @Override
-    public void clear() {
-        Realm realm = Realm.getDefaultInstance();
-        realm.executeTransaction(realm1 -> realm1.delete(TVGuideReminder.class));
-        realm.close();
-    }
-
-    public void remove(int id) {
-        try (Realm realmInstance = Realm.getDefaultInstance()) {
-            RealmResults<TVGuideReminder> item = realmInstance.where(TVGuideReminder.class).equalTo("id", id).findAll();
-            realmInstance.executeTransaction(realm -> item.deleteAllFromRealm());
-        }
-    }
-
     public TVGuideReminder getByStringId(String stringId) {
         try (Realm realm = Realm.getDefaultInstance()) {
             TVGuideReminder item = realm.where(TVGuideReminder.class).equalTo("stringId", stringId).findFirst();
@@ -76,5 +57,24 @@ public class ReminderDao extends BaseDao<TVGuideReminder> {
                 return new TVGuideReminder();
             }
         }
+    }
+
+    public void remove(int id) {
+        try (Realm realmInstance = Realm.getDefaultInstance()) {
+            RealmResults<TVGuideReminder> item = realmInstance.where(TVGuideReminder.class).equalTo("id", id).findAll();
+            realmInstance.executeTransaction(realm -> item.deleteAllFromRealm());
+        }
+    }
+
+    @Override
+    public void clear() {
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(realm1 -> realm1.delete(TVGuideReminder.class));
+        realm.close();
+    }
+
+    @Override
+    public int getCount() {
+        return (int) realm.where(TVGuideReminder.class).count();
     }
 }

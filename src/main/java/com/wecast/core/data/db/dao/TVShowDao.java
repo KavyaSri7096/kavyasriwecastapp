@@ -9,6 +9,7 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * Created by ageech@live.com
@@ -57,18 +58,6 @@ public class TVShowDao extends BaseDao<TVShow> {
         }
     }
 
-    @Override
-    public int getCount() {
-        return (int) realm.where(TVShow.class).count();
-    }
-
-    @Override
-    public void clear() {
-        Realm realm = Realm.getDefaultInstance();
-        realm.executeTransaction(realm1 -> realm1.delete(TVShow.class));
-        realm.close();
-    }
-
     public Observable<List<TVShow>> getRecommended() {
         return Observable.fromCallable(() -> {
             try (Realm realm = Realm.getDefaultInstance()) {
@@ -104,5 +93,47 @@ public class TVShowDao extends BaseDao<TVShow> {
                 return data;
             }
         });
+    }
+
+    public void clearRecommended() {
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(realm1 -> {
+            List<TVShow> results = realm1.where(TVShow.class).findAll();
+            for (TVShow tvShow : results) {
+                if (tvShow.isRecommended()) {
+                    String filed = "id";
+                    RealmResults<TVShow> realmResults = realm1.where(TVShow.class).equalTo(filed, tvShow.getId()).findAll();
+                    realmResults.deleteAllFromRealm();
+                }
+            }
+        });
+        realm.close();
+    }
+
+    public void clearTrending() {
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(realm1 -> {
+            List<TVShow> results = realm1.where(TVShow.class).findAll();
+            for (TVShow tvShow : results) {
+                if (tvShow.isTrending()) {
+                    String filed = "id";
+                    RealmResults<TVShow> realmResults = realm1.where(TVShow.class).equalTo(filed, tvShow.getId()).findAll();
+                    realmResults.deleteAllFromRealm();
+                }
+            }
+        });
+        realm.close();
+    }
+
+    @Override
+    public void clear() {
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(realm1 -> realm1.delete(TVShow.class));
+        realm.close();
+    }
+
+    @Override
+    public int getCount() {
+        return (int) realm.where(TVShow.class).count();
     }
 }
