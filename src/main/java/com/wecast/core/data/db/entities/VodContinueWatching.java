@@ -14,7 +14,7 @@ public class VodContinueWatching extends RealmObject {
     private boolean finished;
 
     @SerializedName("stopped_time")
-    private int stoppedTime;
+    private float stoppedTime;
 
     @SerializedName("duration")
     private float duration;
@@ -27,11 +27,11 @@ public class VodContinueWatching extends RealmObject {
         this.finished = finished;
     }
 
-    public int getStoppedTime() {
+    public float getStoppedTime() {
         return stoppedTime;
     }
 
-    public void setStoppedTime(int stoppedTime) {
+    public void setStoppedTime(float stoppedTime) {
         this.stoppedTime = stoppedTime;
     }
 
