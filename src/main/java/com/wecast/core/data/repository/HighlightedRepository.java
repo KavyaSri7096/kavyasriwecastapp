@@ -68,6 +68,9 @@ public class HighlightedRepository {
                 .doOnNext(apiResponse -> {
                     if (apiResponse.status == ApiStatus.SUCCESS) {
                         if (apiResponse.data != null) {
+                            // Clear data from database
+                            highlightedDao.clear();
+                            // Insert new data from server
                             for (Highlighted highlighted : apiResponse.data) {
                                 String model = highlighted.getModel().toString();
                                 highlighted.setModelString(model);
