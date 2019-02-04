@@ -8,6 +8,7 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * Created by ageech@live.com
@@ -56,18 +57,6 @@ public class ChannelDao extends BaseDao<Channel> {
         }
     }
 
-    @Override
-    public int getCount() {
-        return (int) realm.where(Channel.class).count();
-    }
-
-    @Override
-    public void clear() {
-        Realm realm = Realm.getDefaultInstance();
-        realm.executeTransaction(realm1 -> realm1.delete(Channel.class));
-        realm.close();
-    }
-
     public List<Channel> getAllAsList() {
         try (Realm realm = Realm.getDefaultInstance()) {
             return realm.copyFromRealm(realm.where(Channel.class).sort("channelNumber").findAll());
@@ -112,5 +101,32 @@ public class ChannelDao extends BaseDao<Channel> {
             }
         }
         return Observable.fromCallable(() -> data);
+    }
+
+    public void clearTrending() {
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(realm1 -> {
+            List<Channel> results = realm1.where(Channel.class).findAll();
+            for (Channel channel : results) {
+                if (channel.isTrending()) {
+                    String filed = "id";
+                    RealmResults<Channel> realmResults = realm1.where(Channel.class).equalTo(filed, channel.getId()).findAll();
+                    realmResults.deleteAllFromRealm();
+                }
+            }
+        });
+        realm.close();
+    }
+
+    @Override
+    public void clear() {
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(realm1 -> realm1.delete(Channel.class));
+        realm.close();
+    }
+
+    @Override
+    public int getCount() {
+        return (int) realm.where(Channel.class).count();
     }
 }

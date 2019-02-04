@@ -18,7 +18,7 @@ public abstract class BaseDao<T> {
 
     public abstract T getById(final int id);
 
-    public abstract int getCount();
-
     public abstract void clear();
+
+    public abstract int getCount();
 }

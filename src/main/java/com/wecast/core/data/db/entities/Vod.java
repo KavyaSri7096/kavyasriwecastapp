@@ -44,10 +44,10 @@ public class Vod extends RealmObject {
     private String typeName;
 
     @SerializedName("multi_event_vod_id")
-    private String multiEventVodId;
+    private int multiEventVodId = 0;
 
     @SerializedName("multi_event_vod_season_id")
-    private String multiEventVodSeasonId;
+    private int multiEventVodSeasonId = 0;
 
     @SerializedName("episode_number")
     private String episodeNumber;
@@ -177,19 +177,19 @@ public class Vod extends RealmObject {
         this.typeName = typeName;
     }
 
-    public String getMultiEventVodId() {
+    public int getMultiEventVodId() {
         return multiEventVodId;
     }
 
-    public void setMultiEventVodId(String multiEventVodId) {
+    public void setMultiEventVodId(int multiEventVodId) {
         this.multiEventVodId = multiEventVodId;
     }
 
-    public String getMultiEventVodSeasonId() {
+    public int getMultiEventVodSeasonId() {
         return multiEventVodSeasonId;
     }
 
-    public void setMultiEventVodSeasonId(String multiEventVodSeasonId) {
+    public void setMultiEventVodSeasonId(int multiEventVodSeasonId) {
         this.multiEventVodSeasonId = multiEventVodSeasonId;
     }
 

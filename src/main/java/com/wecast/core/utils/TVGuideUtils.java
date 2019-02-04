@@ -3,7 +3,7 @@ package com.wecast.core.utils;
 import androidx.core.util.Pair;
 
 import com.wecast.core.Constants;
-import com.wecast.core.Logger;
+import com.wecast.core.logger.Logger;
 import com.wecast.core.data.db.entities.TVGuide;
 import com.wecast.core.data.db.entities.TVGuideProgramme;
 

@@ -56,18 +56,6 @@ public class TVGuideDao extends BaseDao<TVGuide> {
         }
     }
 
-    @Override
-    public int getCount() {
-        return (int) realm.where(TVGuide.class).count();
-    }
-
-    @Override
-    public void clear() {
-        Realm realm = Realm.getDefaultInstance();
-        realm.executeTransaction(realm1 -> realm1.delete(TVGuide.class));
-        realm.close();
-    }
-
     public Observable<TVGuide> getProgrammes(int id) {
         return Observable.fromCallable(() -> {
             try (Realm realm = Realm.getDefaultInstance()) {
@@ -94,5 +82,17 @@ public class TVGuideDao extends BaseDao<TVGuide> {
             }
             return null;
         }
+    }
+
+    @Override
+    public void clear() {
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(realm1 -> realm1.delete(TVGuide.class));
+        realm.close();
+    }
+
+    @Override
+    public int getCount() {
+        return (int) realm.where(TVGuide.class).count();
     }
 }

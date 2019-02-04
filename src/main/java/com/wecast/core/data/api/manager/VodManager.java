@@ -32,11 +32,11 @@ public class VodManager {
     }
 
     public Observable<ResponseModel<PagedData<Vod>>> getPage(int page) {
-        return vodService.getPage(page, null, null, 1);
+        return vodService.getPage(page, null, null, 1, 1);
     }
 
     public Observable<ResponseModel<PagedData<Vod>>> getPage(int id, int type) {
-        return vodService.getByID(id, type, 1);
+        return vodService.getByID(id, type, 1, 1);
     }
 
     public Observable<ResponseModel<ArrayList<Vod>>> getRecommended() {
@@ -44,7 +44,7 @@ public class VodManager {
     }
 
     public Observable<ResponseModel<PagedData<Vod>>> getRecentlyAdded(int page) {
-        return vodService.getPage(page, "DESC", null, 1);
+        return vodService.getPage(page, "DESC", null, 1, 1);
     }
 
     public Observable<ResponseModel<ArrayList<Vod>>> getTrending() {
@@ -61,9 +61,9 @@ public class VodManager {
 
     public Observable<ResponseModel<PagedData<Vod>>> getByID(Integer id, boolean isEpisode) {
         if (isEpisode) {
-            return vodService.getByID(id, 1, 1);
+            return vodService.getByID(id, 1, 1, 1);
         }
-        return vodService.getByID(id, null, 1);
+        return vodService.getByID(id, null, 1, 1);
     }
 
     public Observable<ResponseModel<PagedData<Vod>>> getByGenreID(int page, int id) {

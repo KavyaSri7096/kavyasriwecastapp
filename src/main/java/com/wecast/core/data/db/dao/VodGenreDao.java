@@ -55,14 +55,14 @@ public class VodGenreDao extends BaseDao<VodGenre> {
     }
 
     @Override
-    public int getCount() {
-        return (int) realm.where(VodGenre.class).count();
-    }
-
-    @Override
     public void clear() {
         Realm realm = Realm.getDefaultInstance();
         realm.executeTransaction(realm1 -> realm1.delete(VodGenre.class));
         realm.close();
+    }
+
+    @Override
+    public int getCount() {
+        return (int) realm.where(VodGenre.class).count();
     }
 }

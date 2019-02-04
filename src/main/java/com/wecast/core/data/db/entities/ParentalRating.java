@@ -13,7 +13,7 @@ public class ParentalRating extends RealmObject {
     @SerializedName("code")
     private String code;
 
-    @SerializedName("requirePin")
+    @SerializedName("require_pin")
     private boolean requirePin;
 
     public String getCode() {

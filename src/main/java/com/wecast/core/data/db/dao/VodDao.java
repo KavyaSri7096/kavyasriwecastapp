@@ -10,6 +10,7 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * Created by ageech@live.com
@@ -46,6 +47,17 @@ public class VodDao extends BaseDao<Vod> {
         });
     }
 
+    @Override
+    public Vod getById(final int id) {
+        try (Realm realm = Realm.getDefaultInstance()) {
+            Vod item = realm.where(Vod.class).equalTo("id", id).findFirst();
+            if (item != null) {
+                return realm.copyFromRealm(item);
+            } else {
+                return null;
+            }
+        }
+    }
 
     public Observable<List<Vod>> getRecommended() {
         return Observable.fromCallable(() -> {
@@ -74,30 +86,6 @@ public class VodDao extends BaseDao<Vod> {
         });
     }
 
-    @Override
-    public Vod getById(final int id) {
-        try (Realm realm = Realm.getDefaultInstance()) {
-            Vod item = realm.where(Vod.class).equalTo("id", id).findFirst();
-            if (item != null) {
-                return realm.copyFromRealm(item);
-            } else {
-                return null;
-            }
-        }
-    }
-
-    @Override
-    public int getCount() {
-        return (int) realm.where(Vod.class).count();
-    }
-
-    @Override
-    public void clear() {
-        Realm realm = Realm.getDefaultInstance();
-        realm.executeTransaction(realm1 -> realm1.delete(Vod.class));
-        realm.close();
-    }
-
     public VodSourceProfile getProfile(int vodId, int profileId) {
         Vod vod = getById(vodId);
         if (vod != null && vod.getMovieSource() != null && vod.getMovieSource().getProfiles() != null) {
@@ -122,7 +110,7 @@ public class VodDao extends BaseDao<Vod> {
         return null;
     }
 
-    public Observable<List<Vod>> getByGenreID(int genreId) {
+    public Observable<List<Vod>> getByGenreId(int genreId) {
         return Observable.fromCallable(() -> {
             try (Realm realm = Realm.getDefaultInstance()) {
                 List<Vod> results = realm.where(Vod.class).findAll();
@@ -139,5 +127,76 @@ public class VodDao extends BaseDao<Vod> {
                 return data;
             }
         });
+    }
+
+    public List<Vod> getBySeasonId(int seasonId) {
+        try (Realm realm = Realm.getDefaultInstance()) {
+            String filed = "episodeNumber";
+            List<Vod> results = realm.where(Vod.class).sort(filed).findAll();
+            List<Vod> data = new ArrayList<>();
+            for (Vod vod : results) {
+                if (vod.getMultiEventVodSeasonId() == seasonId) {
+                    data.add(vod);
+                }
+            }
+            return data;
+        }
+    }
+
+    public void clearRecommended() {
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(realm1 -> {
+            List<Vod> results = realm1.where(Vod.class).findAll();
+            for (Vod vod : results) {
+                if (vod.isRecommended()) {
+                    String filed = "id";
+                    RealmResults<Vod> realmResults = realm1.where(Vod.class).equalTo(filed, vod.getId()).findAll();
+                    realmResults.deleteAllFromRealm();
+                }
+            }
+        });
+        realm.close();
+    }
+
+    public void clearTrending() {
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(realm1 -> {
+            List<Vod> results = realm1.where(Vod.class).findAll();
+            for (Vod vod : results) {
+                if (vod.isTrending()) {
+                    String filed = "id";
+                    RealmResults<Vod> realmResults = realm1.where(Vod.class).equalTo(filed, vod.getId()).findAll();
+                    realmResults.deleteAllFromRealm();
+                }
+            }
+        });
+        realm.close();
+    }
+
+    public void clearContinueWatching() {
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(realm1 -> {
+            List<Vod> results = realm1.where(Vod.class).findAll();
+            for (Vod vod : results) {
+                if (vod.isContinueWatching()) {
+                    String filed = "id";
+                    RealmResults<Vod> realmResults = realm1.where(Vod.class).equalTo(filed, vod.getId()).findAll();
+                    realmResults.deleteAllFromRealm();
+                }
+            }
+        });
+        realm.close();
+    }
+
+    @Override
+    public void clear() {
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(realm1 -> realm1.delete(Vod.class));
+        realm.close();
+    }
+
+    @Override
+    public int getCount() {
+        return (int) realm.where(Vod.class).count();
     }
 }

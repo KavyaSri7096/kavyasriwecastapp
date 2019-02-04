@@ -55,14 +55,14 @@ public class HighlightedDao extends BaseDao<Highlighted> {
     }
 
     @Override
-    public int getCount() {
-        return (int) realm.where(Highlighted.class).count();
-    }
-
-    @Override
     public void clear() {
         Realm realm = Realm.getDefaultInstance();
         realm.executeTransaction(realm1 -> realm1.delete(Highlighted.class));
         realm.close();
+    }
+
+    @Override
+    public int getCount() {
+        return (int) realm.where(Highlighted.class).count();
     }
 }

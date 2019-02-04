@@ -125,6 +125,9 @@ public class TVShowRepository {
                 .doOnNext(apiResponse -> {
                     if (apiResponse.status == ApiStatus.SUCCESS) {
                         if (apiResponse.data != null) {
+                            // Clear data from database
+                            tvShowDao.clearRecommended();
+                            // Insert new data from server
                             for (TVShow tvShow : apiResponse.data) {
                                 tvShow.setRecommended(true);
                                 preventFieldOverriding(tvShow);
@@ -172,6 +175,9 @@ public class TVShowRepository {
                 .doOnNext(apiResponse -> {
                     if (apiResponse.status == ApiStatus.SUCCESS) {
                         if (apiResponse.data != null) {
+                            // Clear data from database
+                            tvShowDao.clearTrending();
+                            // Insert new data from server
                             for (TVShow tvShow : apiResponse.data) {
                                 tvShow.setTrending(true);
                                 preventFieldOverriding(tvShow);
@@ -242,7 +248,7 @@ public class TVShowRepository {
         if (forceRemote) {
             data = getByGenreIDFromAPI(page, genreId);
         } else {
-            data = tvShowDao.getByGenreID(genreId).map(ResponseWrapper::success);
+            data = tvShowDao.getByGenreId(genreId).map(ResponseWrapper::success);
         }
         return Observable.concat(getByGenreIDFromDB(genreId), data);
     }
@@ -270,7 +276,7 @@ public class TVShowRepository {
     }
 
     private Observable<ResponseWrapper<List<TVShow>>> getByGenreIDFromDB(int genreId) {
-        return tvShowDao.getByGenreID(genreId)
+        return tvShowDao.getByGenreId(genreId)
                 .map(ResponseWrapper::loading)
                 .take(1);
     }

@@ -1,6 +1,6 @@
 package com.wecast.core.utils;
 
-import com.wecast.core.Logger;
+import com.wecast.core.logger.Logger;
 
 import java.net.NetworkInterface;
 import java.util.Collections;

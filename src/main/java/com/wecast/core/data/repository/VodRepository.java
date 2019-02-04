@@ -1,7 +1,7 @@
 package com.wecast.core.data.repository;
 
-import com.wecast.core.data.api.ResponseWrapper;
 import com.wecast.core.data.api.ApiStatus;
+import com.wecast.core.data.api.ResponseWrapper;
 import com.wecast.core.data.api.manager.VodManager;
 import com.wecast.core.data.api.model.PagedData;
 import com.wecast.core.data.api.model.ResponseModel;
@@ -16,9 +16,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by ageech@live.com
@@ -36,12 +34,16 @@ public class VodRepository {
         this.vodManager = vodManager;
     }
 
-    public Observable<Vod> getByID(int id, boolean isEpisode) {
+    /*public Observable<Vod> getByID(int id, boolean isEpisode) {
         return vodManager.getByID(id, isEpisode)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .filter(ResponseModel::isSuccessful)
                 .map(response -> response.getData().getItems().get(0));
+    }*/
+
+    public Observable<Vod> getByID(int id, boolean isEpisode) {
+        return Observable.fromCallable(() -> vodDao.getById(id));
     }
 
     /**
@@ -122,6 +124,9 @@ public class VodRepository {
                 .doOnNext(apiResponse -> {
                     if (apiResponse.status == ApiStatus.SUCCESS) {
                         if (apiResponse.data != null) {
+                            // Clear data from database
+                            vodDao.clearRecommended();
+                            // Insert new data from server
                             for (Vod vod : apiResponse.data) {
                                 vod.setRecommended(true);
                                 preventFieldOverriding(vod);
@@ -169,6 +174,9 @@ public class VodRepository {
                 .doOnNext(apiResponse -> {
                     if (apiResponse.status == ApiStatus.SUCCESS) {
                         if (apiResponse.data != null) {
+                            // Clear data from database
+                            vodDao.clearTrending();
+                            // Insert new data from server
                             for (Vod vod : apiResponse.data) {
                                 vod.setTrending(true);
                                 preventFieldOverriding(vod);
@@ -239,7 +247,7 @@ public class VodRepository {
         if (forceRemote) {
             data = getByGenreIDFromAPI(page, genreId);
         } else {
-            data = vodDao.getByGenreID(genreId).map(ResponseWrapper::success);
+            data = vodDao.getByGenreId(genreId).map(ResponseWrapper::success);
         }
         return Observable.concat(getByGenreIDFromDB(genreId), data);
     }
@@ -271,7 +279,7 @@ public class VodRepository {
     }
 
     private Observable<ResponseWrapper<List<Vod>>> getByGenreIDFromDB(int genreId) {
-        return vodDao.getByGenreID(genreId)
+        return vodDao.getByGenreId(genreId)
                 .map(ResponseWrapper::loading)
                 .take(1);
     }
@@ -308,6 +316,9 @@ public class VodRepository {
                 .doOnNext(apiResponse -> {
                     if (apiResponse.status == ApiStatus.SUCCESS) {
                         if (apiResponse.data != null) {
+                            // Clear data from database
+                            vodDao.clearContinueWatching();
+                            // Insert new data from server
                             for (Vod vod : apiResponse.data) {
                                 vod.setContinueWatching(true);
                                 preventFieldOverriding(vod);
