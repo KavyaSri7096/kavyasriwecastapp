@@ -43,7 +43,7 @@ public class ChannelManager {
     }
 
     public Observable<ResponseModel<ArrayList<Channel>>> getTrending() {
-        return channelService.getTrending(1);
+        return channelService.getTrending(1, 10);
     }
 
     public Observable<ResponseModel<ArrayList<ChannelGenre>>> getGenres() {

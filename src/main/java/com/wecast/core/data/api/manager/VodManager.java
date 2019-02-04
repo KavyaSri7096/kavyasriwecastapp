@@ -48,7 +48,7 @@ public class VodManager {
     }
 
     public Observable<ResponseModel<ArrayList<Vod>>> getTrending() {
-        return vodService.getTrending();
+        return vodService.getTrending(10);
     }
 
     public Observable<ResponseModel<ArrayList<Vod>>> getContinueWatching() {
