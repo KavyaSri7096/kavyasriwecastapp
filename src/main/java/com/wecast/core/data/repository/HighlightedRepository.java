@@ -2,10 +2,17 @@ package com.wecast.core.data.repository;
 
 import com.wecast.core.data.api.ApiStatus;
 import com.wecast.core.data.api.ResponseWrapper;
+import com.wecast.core.data.api.manager.ChannelManager;
 import com.wecast.core.data.api.manager.HighlightedManager;
+import com.wecast.core.data.api.manager.VodManager;
 import com.wecast.core.data.api.model.ResponseModel;
+import com.wecast.core.data.db.dao.ChannelDao;
 import com.wecast.core.data.db.dao.HighlightedDao;
+import com.wecast.core.data.db.dao.TVShowDao;
+import com.wecast.core.data.db.dao.VodDao;
+import com.wecast.core.data.db.entities.Channel;
 import com.wecast.core.data.db.entities.Highlighted;
+import com.wecast.core.data.db.entities.HighlightedType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,11 +32,18 @@ public class HighlightedRepository {
 
     private final HighlightedDao highlightedDao;
     private final HighlightedManager highlightedManager;
+    private final ChannelDao channelDao;
+    private final VodDao vodDao;
+    private final TVShowDao tvShowDao;
 
     @Inject
-    public HighlightedRepository(HighlightedDao highlightedDao, HighlightedManager highlightedManager) {
+    public HighlightedRepository(HighlightedDao highlightedDao, HighlightedManager highlightedManager,
+                                 ChannelDao channelDao, VodDao vodDao, TVShowDao tvShowDao) {
         this.highlightedDao = highlightedDao;
         this.highlightedManager = highlightedManager;
+        this.channelDao = channelDao;
+        this.vodDao = vodDao;
+        this.tvShowDao = tvShowDao;
     }
 
     public Highlighted getByID(int id) {
@@ -75,6 +89,14 @@ public class HighlightedRepository {
                                 String model = highlighted.getModel().toString();
                                 highlighted.setModelString(model);
                                 highlightedDao.insert(highlighted);
+                                if (highlighted.getType() == HighlightedType.CHANNEL) {
+                                    channelDao.insert(highlighted.getChannelModel());
+                                } else if (highlighted.getType() == HighlightedType.MOVIE
+                                        || highlighted.getType() == HighlightedType.EPISODE) {
+                                    vodDao.insert(highlighted.getMovieModel());
+                                } else if (highlighted.getType() == HighlightedType.TV_SHOW) {
+                                    tvShowDao.insert(highlighted.getTVShowModel());
+                                }
                             }
                         }
                     }
