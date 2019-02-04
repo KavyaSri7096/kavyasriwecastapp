@@ -44,7 +44,8 @@ public interface ChannelService {
 
     @GET("channels/trendings")
     Observable<ResponseModel<ArrayList<Channel>>> getTrending(
-            @Query(value = "config[enable_favorites]", encoded = true) Integer favorite
+            @Query(value = "config[enable_favorites]", encoded = true) Integer favorite,
+            @Query("limit") Integer limit
     );
 
     @GET("channels/categories")

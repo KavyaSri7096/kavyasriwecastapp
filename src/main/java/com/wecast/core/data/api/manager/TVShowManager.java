@@ -41,7 +41,7 @@ public class TVShowManager {
     }
 
     public Observable<ResponseModel<ArrayList<TVShow>>> getTrending() {
-        return tvShowService.getTrending();
+        return tvShowService.getTrending(10);
     }
 
     public Observable<ResponseModel<PagedData<TVShow>>> getRecentlyAdded(int page) {

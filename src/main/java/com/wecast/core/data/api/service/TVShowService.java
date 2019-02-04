@@ -40,7 +40,9 @@ public interface TVShowService {
     );
 
     @GET("vods/trending-tv-shows")
-    Observable<ResponseModel<ArrayList<TVShow>>> getTrending();
+    Observable<ResponseModel<ArrayList<TVShow>>> getTrending(
+            @Query("limit") Integer limit
+    );
 
     @GET("vods/genres")
     Observable<ResponseModel<ArrayList<TVShowGenre>>> getGenres();
