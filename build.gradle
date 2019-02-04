@@ -87,6 +87,9 @@ dependencies {
     // Hockey app
     api libraries.hockeyApp.base
 
+    // Toasty
+    api libraries.toasty.base
+
     // Logger
     api libraries.timber.base
 
