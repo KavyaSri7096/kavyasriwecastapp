@@ -47,7 +47,9 @@ public interface VodService {
     );
 
     @GET("vods/trending-movies")
-    Observable<ResponseModel<ArrayList<Vod>>> getTrending();
+    Observable<ResponseModel<ArrayList<Vod>>> getTrending(
+            @Query("limit") Integer limit
+    );
 
     @GET("vods/get-continue-watching")
     Observable<ResponseModel<ArrayList<Vod>>> getContinueWatching(
