@@ -27,10 +27,10 @@ android {
 dependencies {
     application project(':app')
 
-    // Support
-    api libraries.appCompat.constraintLayout
-    api libraries.appCompat.design
-    api libraries.appCompat.cardview
+    // Android X support
+    api libraries.androidx.base
+    api libraries.androidx.design
+    api libraries.androidx.constraintLayout
 
     // View Model
     api libraries.architecture.lifecycle
