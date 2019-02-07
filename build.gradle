@@ -1,4 +1,4 @@
-apply plugin: 'com.android.feature'
+apply plugin: 'com.android.library'
 apply plugin: 'realm-android'
 apply from: '../libraries.gradle'
 
@@ -25,7 +25,6 @@ android {
 }
 
 dependencies {
-    application project(':app')
 
     // Android X support
     api libraries.androidx.base
