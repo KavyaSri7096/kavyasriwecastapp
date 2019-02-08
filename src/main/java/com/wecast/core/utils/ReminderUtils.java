@@ -11,6 +11,7 @@ import android.provider.CalendarContract;
 
 import com.wecast.core.data.db.entities.TVGuideProgramme;
 import com.wecast.core.data.db.entities.TVGuideReminder;
+import com.wecast.core.logger.Logger;
 
 import java.util.TimeZone;
 
@@ -100,10 +101,19 @@ public final class ReminderUtils {
         return -1;
     }
 
+    public boolean isEventInCalendar(long eventId) {
+        Cursor cursor = contentResolver.query(
+                Uri.parse("content://com.android.calendar/events"),
+                new String[]{"_id"}, " _id = ? ",
+                new String[]{String.valueOf(eventId)}, null);
+        return cursor != null && cursor.moveToFirst();
+    }
+
     @SuppressLint("MissingPermission")
     public void createEvent(TVGuideProgramme programme) {
         long calId = getCalendarId();
         ContentValues values = new ContentValues();
+        values.put(CalendarContract.Events._ID, programme.getStart());
         values.put(CalendarContract.Events.DTSTART, programme.getStartDate().getTime());
         values.put(CalendarContract.Events.DTEND, programme.getStopDate().getTime());
         values.put(CalendarContract.Events.TITLE, programme.getTitle());
@@ -112,10 +122,10 @@ public final class ReminderUtils {
         values.put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().getID());
 
         Uri uri = contentResolver.insert(CalendarContract.Events.CONTENT_URI, values);
-        // get the event ID that is the last element in the Uri
+        // Get the event ID that is the last element in the Uri
         if (uri != null) {
-            long eventId = Long.parseLong(uri.getLastPathSegment());
-            createReminder(eventId);
+            //long eventId = Long.parseLong(uri.getLastPathSegment());
+            createReminder(programme.getStart());
         }
     }
 
@@ -138,6 +148,7 @@ public final class ReminderUtils {
 
     @SuppressLint("MissingPermission")
     private void createReminder(long eventId) {
+        Logger.e("Reminder added ID -> " + eventId);
         ContentValues values = new ContentValues();
         values.put(CalendarContract.Reminders.MINUTES, 10);
         values.put(CalendarContract.Reminders.EVENT_ID, eventId);
@@ -147,13 +158,16 @@ public final class ReminderUtils {
 
     @SuppressLint("MissingPermission")
     public void updateReminder(long eventId, long minutes) {
+        Logger.e("Reminder updated ID -> " + eventId);
         long reminderId = getReminderId(eventId);
-        ContentValues values = new ContentValues();
-        values.put(CalendarContract.Reminders.MINUTES, minutes);
-        String[] selArgs = new String[]{
-                Long.toString(reminderId)
-        };
-        contentResolver.update(CalendarContract.Reminders.CONTENT_URI, values, CalendarContract.Reminders._ID + " =? ", selArgs);
+        if (reminderId != -1) {
+            ContentValues values = new ContentValues();
+            values.put(CalendarContract.Reminders.MINUTES, minutes);
+            String[] selArgs = new String[]{
+                    Long.toString(reminderId)
+            };
+            contentResolver.update(CalendarContract.Reminders.CONTENT_URI, values, CalendarContract.Reminders._ID + " =? ", selArgs);
+        }
     }
 
     @SuppressLint("MissingPermission")

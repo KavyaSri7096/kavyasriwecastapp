@@ -29,7 +29,7 @@ public class SyncRemindersService extends BaseService {
     @Inject
     TVGuideManager tvGuideManager;
     @Inject
-    ReminderUtils reminderHelper;
+    ReminderUtils reminderUtils;
     @Inject
     ReminderDao reminderDao;
 
@@ -58,7 +58,7 @@ public class SyncRemindersService extends BaseService {
         reminderDao.insert(data);
 
         // Update calendar events
-        reminderHelper.createCalendar();
+        reminderUtils.createCalendar();
         for (TVGuideReminder reminder : data) {
             TVGuideProgramme programme = new TVGuideProgramme();
             programme.setId(reminder.getEpgProgramme().getId());
@@ -68,9 +68,9 @@ public class SyncRemindersService extends BaseService {
             programme.setStart(reminder.getEpgProgramme().getStartTimestamp());
             programme.setStop(reminder.getEpgProgramme().getStopTimestamp());
             // Add event to calendar
-            long eventId = reminderHelper.getEventId(programme);
-            if (eventId == -1) {
-                reminderHelper.createEvent(programme);
+            boolean hasReminder = reminderUtils.isEventInCalendar(programme.getStart());
+            if (hasReminder) {
+                reminderUtils.createEvent(programme);
             }
         }
 
