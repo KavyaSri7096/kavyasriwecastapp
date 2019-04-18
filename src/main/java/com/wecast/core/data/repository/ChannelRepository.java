@@ -47,28 +47,6 @@ public class ChannelRepository {
      * Fetch all channels from server and store it to database
      */
 
-    public Observable<ResponseWrapper<List<Channel>>> getAll() {
-        return channelManager.getAll()
-                .map((Function<ResponseModel<ArrayList<Channel>>, ResponseWrapper<List<Channel>>>) response -> {
-                    if (response.isTokenExpired()) {
-                        return ResponseWrapper.tokenExpired();
-                    } else if (response.isSubscriptionExpired()) {
-                        List<Channel> data = response.getData();
-                        return ResponseWrapper.subscriptionExpired(data);
-                    } else if (response.isSuccessful()) {
-                        List<Channel> data = response.getData();
-                        return ResponseWrapper.success(data);
-                    } else {
-                        return ResponseWrapper.error(response.getMessage());
-                    }
-                })
-                .doOnNext(apiResponse -> {
-                    if (apiResponse.status == ApiStatus.SUCCESS) {
-                        channelDao.insert(apiResponse.data);
-                    }
-                });
-    }
-
     public Observable<ResponseWrapper<List<Channel>>> getAll(boolean forceRemote, int page) {
         Observable<ResponseWrapper<List<Channel>>> data;
         if (forceRemote) {

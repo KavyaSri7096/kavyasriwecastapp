@@ -24,13 +24,6 @@ import retrofit2.http.QueryMap;
 
 public interface ChannelService {
 
-    @GET("channels")
-    Observable<ResponseModel<ArrayList<Channel>>> getAll(
-            @Query(value = "filter[category_id]", encoded = true) Integer genreId,
-            @Query(value = "filter[title]", encoded = true) String title,
-            @Query(value = "config[enable_favorites]", encoded = true) Integer favorite
-    );
-
     @GET("channels/list")
     Observable<ResponseModel<PagedData<Channel>>> getPage(
             @Query("page") Integer page,
