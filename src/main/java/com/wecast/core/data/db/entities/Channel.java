@@ -52,6 +52,12 @@ public class Channel extends RealmObject {
     @SerializedName("catchup_url")
     private String catchupUrl;
 
+    @SerializedName("primary_drm_license_url")
+    private String primaryDrmLicenseUrl;
+
+    @SerializedName("backup_drm_license_url")
+    private String backupDrmLicenseUrl;
+
     @SerializedName("type")
     private String type;
 
@@ -183,6 +189,22 @@ public class Channel extends RealmObject {
 
     public void setCatchupUrl(String catchupUrl) {
         this.catchupUrl = catchupUrl;
+    }
+
+    public String getPrimaryDrmLicenseUrl() {
+        return primaryDrmLicenseUrl;
+    }
+
+    public void setPrimaryDrmLicenseUrl(String primaryDrmLicenseUrl) {
+        this.primaryDrmLicenseUrl = primaryDrmLicenseUrl;
+    }
+
+    public String getBackupDrmLicenseUrl() {
+        return backupDrmLicenseUrl;
+    }
+
+    public void setBackupDrmLicenseUrl(String backupDrmLicenseUrl) {
+        this.backupDrmLicenseUrl = backupDrmLicenseUrl;
     }
 
     public String getType() {
