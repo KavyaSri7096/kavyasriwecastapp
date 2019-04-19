@@ -30,10 +30,6 @@ public class ChannelManager {
         this.channelService = channelService;
     }
 
-    public Observable<ResponseModel<ArrayList<Channel>>> getAll() {
-        return channelService.getAll(null, null, 1);
-    }
-
     public Observable<ResponseModel<PagedData<Channel>>> getPage(int page) {
         return channelService.getPage(page, 1);
     }

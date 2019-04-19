@@ -70,12 +70,12 @@ public class TVGuideDao extends BaseDao<TVGuide> {
         });
     }
 
-    public TVGuideProgramme getProgrammeById(final String id) {
+    public TVGuideProgramme getProgrammeById(final String stringId) {
         try (Realm realm = Realm.getDefaultInstance()) {
             List<TVGuide> items = realm.where(TVGuide.class).findAll();
             for (TVGuide tvGuide : items) {
                 for (TVGuideProgramme tvGuideProgramme : tvGuide.getProgrammes()) {
-                    if (tvGuideProgramme.getId().equals(id)) {
+                    if (tvGuideProgramme.getStringId().equals(stringId)) {
                         return realm.copyFromRealm(tvGuideProgramme);
                     }
                 }
