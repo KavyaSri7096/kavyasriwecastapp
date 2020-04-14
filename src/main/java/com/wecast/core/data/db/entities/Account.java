@@ -54,7 +54,7 @@ public class Account {
     private String homeInternetSpeed;
 
     @SerializedName("balance")
-    private int balance;
+    private float balance;
 
     @SerializedName("purchase_pin")
     private String purchasePin;
@@ -248,11 +248,11 @@ public class Account {
         this.homeInternetSpeed = homeInternetSpeed;
     }
 
-    public int getBalance() {
+    public float getBalance() {
         return balance;
     }
 
-    public void setBalance(int balance) {
+    public void setBalance(float balance) {
         this.balance = balance;
     }
 

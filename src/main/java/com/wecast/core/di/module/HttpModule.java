@@ -7,6 +7,7 @@ import com.wecast.core.WeCore;
 import com.wecast.core.data.api.ApiInterceptor;
 import com.wecast.core.data.db.pref.PreferenceManager;
 
+import java.io.IOException;
 import java.security.cert.X509Certificate;
 import java.util.concurrent.TimeUnit;
 
@@ -19,7 +20,10 @@ import javax.net.ssl.X509TrustManager;
 
 import dagger.Module;
 import dagger.Provides;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -31,6 +35,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
 public class HttpModule {
+
+    private static final String HEADER_TENANT = "Tenant";
+    private static final String HEADER_TENANT_DEFAULT = "general";
 
     @Provides
     @Singleton
@@ -61,6 +68,17 @@ public class HttpModule {
         okHttpClient.writeTimeout(30L, TimeUnit.SECONDS);
         okHttpClient.addInterceptor(apiInterceptor);
         okHttpClient.addInterceptor(loggingInterceptor);
+        okHttpClient.addInterceptor(new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                Request request = chain.request();
+                Request newRequest;
+                newRequest = request.newBuilder()
+                        .addHeader(HEADER_TENANT, HEADER_TENANT_DEFAULT)
+                        .build();
+                return chain.proceed(newRequest);
+            }
+        });
         return okHttpClient.build();
     }
 

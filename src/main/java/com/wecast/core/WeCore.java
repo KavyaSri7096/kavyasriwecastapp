@@ -20,6 +20,7 @@ public class WeCore {
         versionName = version;
     }
 
+
     public static String getApiUrl() {
         return apiUrl;
     }
