@@ -447,4 +447,50 @@ public class Account {
     public void setSubscriptionExpired(boolean subscriptionExpired) {
         this.subscriptionExpired = subscriptionExpired;
     }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", address='" + address + '\'' +
+                ", age=" + age +
+                ", facebook='" + facebook + '\'' +
+                ", sex=" + sex +
+                ", cityId=" + cityId +
+                ", countryId=" + countryId +
+                ", zip='" + zip + '\'' +
+                ", taxId='" + taxId + '\'' +
+                ", subscriptionId=" + subscriptionId +
+                ", marketId=" + marketId +
+                ", homeInternetSpeed='" + homeInternetSpeed + '\'' +
+                ", balance=" + balance +
+                ", purchasePin='" + purchasePin + '\'' +
+                ", expire='" + expire + '\'' +
+                ", status=" + status +
+                ", type=" + type +
+                ", deleted=" + deleted +
+                ", cardPassword='" + cardPassword + '\'' +
+                ", firstLoginDetails=" + firstLoginDetails +
+                ", lastLogin='" + lastLogin + '\'' +
+                ", token='" + token + '\'' +
+                ", paymentType='" + paymentType + '\'' +
+                ", countriesBlocking=" + countriesBlocking +
+                ", devicesBlocking=" + devicesBlocking +
+                ", loginPolicy=" + loginPolicy +
+                ", loginMethod='" + loginMethod + '\'' +
+                ", billingFirstName='" + billingFirstName + '\'' +
+                ", billingLastName='" + billingLastName + '\'' +
+                ", billingCountryId=" + billingCountryId +
+                ", billingCityId=" + billingCityId +
+                ", billingAddress='" + billingAddress + '\'' +
+                ", billingPhone='" + billingPhone + '\'' +
+                ", billingEmail='" + billingEmail + '\'' +
+                ", resellerUser=" + resellerUser +
+                ", taxNumber=" + taxNumber +
+                ", subscriptionExpired=" + subscriptionExpired +
+                '}';
+    }
 }
