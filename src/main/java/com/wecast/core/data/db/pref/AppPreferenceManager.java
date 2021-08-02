@@ -233,4 +233,14 @@ public class AppPreferenceManager implements PreferenceManager {
     public String getPurchasePIN() {
         return getAuthentication().getAccount().getPurchasePin();
     }
+
+    @Override
+    public boolean is24hTimeFormat() {
+        return false;
+    }
+
+    @Override
+    public void set24hTimeFormat(boolean checked) {
+
+    }
 }

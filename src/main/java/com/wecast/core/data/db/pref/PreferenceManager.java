@@ -76,4 +76,8 @@ public interface PreferenceManager {
     String getPIN();
 
     String getPurchasePIN();
+
+    boolean is24hTimeFormat();
+
+    void set24hTimeFormat(boolean checked);
 }
