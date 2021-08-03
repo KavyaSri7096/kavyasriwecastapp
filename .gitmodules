@@ -1,0 +1,6 @@
+[submodule "WecastMobileApp"]
+	path = WecastMobileApp
+	url = https://github.com/KavyaSri7096/WecastMobileApp.git
+[submodule "wecast-2.0-core"]
+	path = wecast-2.0-core
+	url = https://github.com/KavyaSri7096/WecastMobileApp.git
